@@ -30,13 +30,13 @@
 #include "qhtml5integration.h"
 #include "qhtml5eventtranslator.h"
 #include "qhtml5eventdispatcher.h"
-#include "qhtml5compositor.h"
-#include "qhtml5openglcontext.h"
+//#include "qhtml5compositor.h"
+//#include "qhtml5openglcontext.h"
 #include "qhtml5theme.h"
 
-#include "qhtml5window.h"
+//#include "qhtml5window.h"
 #ifndef QT_NO_OPENGL
-# include "qhtml5backingstore.h"
+//# include "qhtml5backingstore.h"
 #endif
 #include "qhtml5fontdatabase.h"
 #if defined(Q_OS_UNIX)
@@ -50,7 +50,7 @@
 #include <emscripten/bind.h>
 
 // this is where EGL headers are pulled in, make sure it is last
-#include "qhtml5screen.h"
+//#include "qhtml5screen.h"
 
 using namespace emscripten;
 QT_BEGIN_NAMESPACE
@@ -60,6 +60,7 @@ void browserBeforeUnload() {
 }
 
 EMSCRIPTEN_BINDINGS(my_module) {
+    // This is a good one to look through the compiled JS to make sure Embind works properly :)
     function("browserBeforeUnload", &browserBeforeUnload);
 }
 
@@ -95,8 +96,8 @@ void emscriptenOutput(QtMsgType type, const QMessageLogContext &context, const Q
 
 QHtml5Integration::QHtml5Integration()
     : mFontDb(0),
-      mCompositor(new QHtml5Compositor),
-      mScreen(new QHtml5Screen(mCompositor)),
+      //mCompositor(new QHtml5Compositor),
+      //mScreen(new QHtml5Screen(mCompositor)),
       m_eventDispatcher(0)
 {
     qSetMessagePattern(QString("(%{function}:%{line}) - %{message}"));
@@ -104,9 +105,9 @@ QHtml5Integration::QHtml5Integration()
 
     globalHtml5Integration = this;
 
-    updateQScreenAndCanvasRenderSize();
-    screenAdded(mScreen);
-    emscripten_set_resize_callback(0, (void *)this, 1, uiEvent_cb);
+    //updateQScreenAndCanvasRenderSize();
+    //screenAdded(mScreen);
+    //emscripten_set_resize_callback(0, (void *)this, 1, uiEvent_cb);
 
     m_eventTranslator = new QHtml5EventTranslator();
 #ifdef QEGL_EXTRA_DEBUG
@@ -122,8 +123,8 @@ QHtml5Integration::QHtml5Integration()
 QHtml5Integration::~QHtml5Integration()
 {
     qDebug() << Q_FUNC_INFO;
-    delete mCompositor;
-    destroyScreen(mScreen);
+    //delete mCompositor;
+    //destroyScreen(mScreen);
     delete mFontDb;
     delete m_eventTranslator;
 }
@@ -137,12 +138,12 @@ void QHtml5Integration::QHtml5BrowserExit()
 bool QHtml5Integration::hasCapability(QPlatformIntegration::Capability cap) const
 {
     switch (cap) {
-    case ThreadedPixmaps: return true;
-    case OpenGL: return true;
-    case ThreadedOpenGL: return true;
+    /*case ThreadedPixmaps: return true;
+    case OpenGL: return false;
+    case ThreadedOpenGL: return false;
     case RasterGLSurface: return true;
     case MultipleWindows: return true;
-    case WindowManagement: return true;
+    case WindowManagement: return true;*/
     default: return QPlatformIntegration::hasCapability(cap);
     }
 }
@@ -152,11 +153,11 @@ QPlatformWindow *QHtml5Integration::createPlatformWindow(QWindow *window) const
 #ifdef QEGL_EXTRA_DEBUG
     qWarning("QHtml5Integration::createPlatformWindow %p\n",window);
 #endif
+    return NULL; /*
+    QHtml5Window *w = NULL; // new QHtml5Window(window, mCompositor, m_backingStores.value(window));
+    //w->create();
 
-    QHtml5Window *w = new QHtml5Window(window, mCompositor, m_backingStores.value(window));
-    w->create();
-
-    return w;
+    return w;*/
 }
 
 QPlatformBackingStore *QHtml5Integration::createPlatformBackingStore(QWindow *window) const
@@ -165,8 +166,8 @@ QPlatformBackingStore *QHtml5Integration::createPlatformBackingStore(QWindow *wi
     qWarning("QHtml5Integration::createWindowSurface %p\n", window);
 //#endif
 #ifndef QT_NO_OPENGL
-    QHtml5BackingStore *backingStore = new QHtml5BackingStore(mCompositor, window);
-    m_backingStores.insert(window, backingStore);
+    QHtml5BackingStore *backingStore = NULL ; //new QHtml5BackingStore(mCompositor, window);
+    //m_backingStores.insert(window, backingStore);
     return backingStore;
 #else
     return nullptr;
@@ -176,7 +177,7 @@ QPlatformBackingStore *QHtml5Integration::createPlatformBackingStore(QWindow *wi
 #ifndef QT_NO_OPENGL
 QPlatformOpenGLContext *QHtml5Integration::createPlatformOpenGLContext(QOpenGLContext *context) const
 {
-    return new QHtml5OpenGLContext(context->format());
+    return NULL; //new QHtml5OpenGLContext(context->format());
 }
 #endif
 
@@ -219,7 +220,7 @@ int QHtml5Integration::uiEvent_cb(int eventType, const EmscriptenUiEvent *e, voi
         // This resize event is called when the HTML window is resized. Depending
         // on the page layout the the canvas might also have been resized, so we
         // update the Qt screen size (and canvas render size).
-        updateQScreenAndCanvasRenderSize();
+        //updateQScreenAndCanvasRenderSize();
     }
 
     return 0;
@@ -242,7 +243,7 @@ void QHtml5Integration::updateQScreenAndCanvasRenderSize()
     // size must be set manually and is not auto-updated on CSS size change.
     // Setting the render size to a value larger than the CSS size enables high-dpi
     // rendering.
-
+/*
     double css_width;
     double css_height;
     emscripten_get_element_css_size(0, &css_width, &css_height);
@@ -253,7 +254,7 @@ void QHtml5Integration::updateQScreenAndCanvasRenderSize()
 
     set_canvas_size(canvasSize.width(), canvasSize.height());
     screen->setGeometry(QRect(QPoint(0, 0), cssSize.toSize()));
-    QHtml5Integration::get()->mCompositor->redrawWindowContent();
+    QHtml5Integration::get()->mCompositor->redrawWindowContent();*/
 }
 
 QT_END_NAMESPACE

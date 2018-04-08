@@ -31,7 +31,7 @@
 #include "qhtml5window.h"
 #include "qhtml5compositor.h"
 
-#include <QtEglSupport/private/qeglconvenience_p.h>
+// #include <QtEglSupport/private/qeglconvenience_p.h>
 #ifndef QT_NO_OPENGL
 # include <QtEglSupport/private/qeglplatformcontext_p.h>
 #endif

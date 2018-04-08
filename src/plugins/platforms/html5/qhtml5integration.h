@@ -44,9 +44,9 @@ QT_BEGIN_NAMESPACE
 
 class QHtml5EventTranslator;
 class QHtml5FontDatabase;
-class QHtml5Window;
+//class QHtml5Window;
 class QHtml5EventDispatcher;
-class QHtml5Screen;
+//class QHtml5Screen;
 class QHtml5Compositor;
 class QHtml5BackingStore;
 
@@ -70,15 +70,15 @@ public:
     QPlatformTheme *createPlatformTheme(const QString &name) const override;
 
     static QHtml5Integration *get();
-    QHtml5Screen *screen() { return mScreen; }
-    QHtml5Compositor *compositor() { return mCompositor; }
+    //QHtml5Screen *screen() { return mScreen; }
+    //QHtml5Compositor *compositor() { return mCompositor; }
     static void QHtml5BrowserExit();
     static void updateQScreenAndCanvasRenderSize();
 
 private:
     mutable QHtml5FontDatabase *mFontDb;
-    QHtml5Compositor *mCompositor;
-    mutable QHtml5Screen *mScreen;
+   // QHtml5Compositor *mCompositor;
+   // mutable QHtml5Screen *mScreen;
     mutable QHtml5EventTranslator *m_eventTranslator;
     mutable QHtml5EventDispatcher *m_eventDispatcher;
     static int uiEvent_cb(int eventType, const EmscriptenUiEvent *e, void *userData);

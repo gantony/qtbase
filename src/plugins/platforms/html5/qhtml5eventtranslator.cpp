@@ -28,7 +28,7 @@
 ****************************************************************************/
 
 #include "qhtml5eventtranslator.h"
-#include "qhtml5compositor.h"
+//#include "qhtml5compositor.h"
 #include "qhtml5integration.h"
 
 #include <QDebug>
@@ -301,7 +301,7 @@ void QHtml5EventTranslator::processMouse(int eventType, const EmscriptenMouseEve
     Qt::MouseButton button = translateMouseButton(mouseEvent->button);
     Qt::KeyboardModifiers modifiers = translateMouseModifier(mouseEvent);
 
-    QWindow *window2 = QHtml5Integration::get()->compositor()->windowAt(point, 5);
+    QWindow *window2 = NULL; //QHtml5Integration::get()->compositor()->windowAt(point, 5);
     QHtml5Window *htmlWindow = static_cast<QHtml5Window*>(window2->handle());
     bool onFrame = false;
     if (window2 && !window2->geometry().contains(point))
