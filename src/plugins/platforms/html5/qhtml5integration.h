@@ -60,29 +60,29 @@ public:
     bool hasCapability(QPlatformIntegration::Capability cap) const override;
     QPlatformWindow *createPlatformWindow(QWindow *window) const override;
     QPlatformBackingStore *createPlatformBackingStore(QWindow *window) const override;
-#ifndef QT_NO_OPENGL
-    QPlatformOpenGLContext *createPlatformOpenGLContext(QOpenGLContext *context) const override;
-#endif
-    QPlatformFontDatabase *fontDatabase() const override;
+// #ifndef QT_NO_OPENGL
+//     QPlatformOpenGLContext *createPlatformOpenGLContext(QOpenGLContext *context) const override;
+// #endif
+//     QPlatformFontDatabase *fontDatabase() const override;
     QAbstractEventDispatcher *createEventDispatcher() const override;
-    QVariant styleHint(QPlatformIntegration::StyleHint hint) const override;
-    QStringList themeNames() const override;
-    QPlatformTheme *createPlatformTheme(const QString &name) const override;
+//     QVariant styleHint(QPlatformIntegration::StyleHint hint) const override;
+//     QStringList themeNames() const override;
+//     QPlatformTheme *createPlatformTheme(const QString &name) const override;
 
     static QHtml5Integration *get();
     //QHtml5Screen *screen() { return mScreen; }
     //QHtml5Compositor *compositor() { return mCompositor; }
-    static void QHtml5BrowserExit();
-    static void updateQScreenAndCanvasRenderSize();
+    // static void QHtml5BrowserExit();
+    // static void updateQScreenAndCanvasRenderSize();
 
 private:
-    mutable QHtml5FontDatabase *mFontDb;
+    // mutable QHtml5FontDatabase *mFontDb;
    // QHtml5Compositor *mCompositor;
    // mutable QHtml5Screen *mScreen;
-    mutable QHtml5EventTranslator *m_eventTranslator;
-    mutable QHtml5EventDispatcher *m_eventDispatcher;
-    static int uiEvent_cb(int eventType, const EmscriptenUiEvent *e, void *userData);
-    mutable QHash<QWindow *, QHtml5BackingStore *> m_backingStores;
+    // mutable QHtml5EventTranslator *m_eventTranslator;
+    // mutable QHtml5EventDispatcher *m_eventDispatcher;
+    // static int uiEvent_cb(int eventType, const EmscriptenUiEvent *e, void *userData);
+    // mutable QHash<QWindow *, QHtml5BackingStore *> m_backingStores;
 };
 
 QT_END_NAMESPACE
